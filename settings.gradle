@@ -1,3 +1,6 @@
 rootProject.name = 'plus'
-include 'loader'
+include 'api'
+include 'spigot'
+include 'velocity'
+include 'bungee'
 
