@@ -50,9 +50,7 @@ public interface PluginLogger {
      * @param message the message format string
      * @param args the arguments referenced by the format specifiers in the message
      */
-    default void info(String message, Object... args) {
-        this.info(String.format(message, args));
-    }
+     void info(String message, Object... args);
 
     /**
      * Logs a warning message with formatting arguments.
@@ -60,20 +58,7 @@ public interface PluginLogger {
      * @param message the message format string
      * @param args the arguments referenced by the format specifiers in the message
      */
-    default void warn(String message, Object... args) {
-        this.warn(String.format(message, args));
-    }
-
-    /**
-     * Logs a warning message with a {@link Throwable} and formatting arguments.
-     *
-     * @param message the message format string
-     * @param throwable the throwable to log with the message
-     * @param args the arguments referenced by the format specifiers in the message
-     */
-    default void warn(String message, Throwable throwable, Object... args) {
-        this.warn(String.format(message, args), throwable);
-    }
+    void warn(String message, Object... args);
 
     /**
      * Logs an error message with formatting arguments.
@@ -81,18 +66,5 @@ public interface PluginLogger {
      * @param message the message format string
      * @param args the arguments referenced by the format specifiers in the message
      */
-    default void error(String message, Object... args) {
-        this.error(String.format(message, args));
-    }
-
-    /**
-     * Logs an error message with a {@link Throwable} and formatting arguments.
-     *
-     * @param message the message format string
-     * @param throwable the throwable to log with the message
-     * @param args the arguments referenced by the format specifiers in the message
-     */
-    default void error(String message, Throwable throwable, Object... args) {
-        this.error(String.format(message, args), throwable);
-    }
+     void error(String message, Object... args);
 }
