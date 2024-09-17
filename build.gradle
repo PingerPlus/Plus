@@ -2,12 +2,14 @@ plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'maven-publish'
+    id 'jacoco'
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'jacoco'
 
     group = 'io.pinger.plus'
     version = '1.0.0'
@@ -19,6 +21,14 @@ subprojects {
         options.encoding = 'UTF-8'
     }
 
+    jacocoTestReport {
+        dependsOn test
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+    
     repositories {
         mavenCentral()
         maven { url 'https://repo.papermc.io/repository/maven-public/' }
