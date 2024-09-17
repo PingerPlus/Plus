@@ -3,4 +3,5 @@ include 'api'
 include 'spigot'
 include 'velocity'
 include 'bungee'
+include 'universe'
 

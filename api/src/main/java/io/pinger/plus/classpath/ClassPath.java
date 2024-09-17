@@ -8,6 +8,8 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.Reflection;
+import io.pinger.plus.instance.Instances;
+import io.pinger.plus.plugin.logging.PluginLogger;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -210,7 +212,7 @@ public final class ClassPath {
 
                 this.scanJarFile(classLoader, jarFile);
             } catch (Exception e) {
-                Bukkit.getLogger().log(Level.INFO, "Failed to scan jar " + file);
+                Instances.get(PluginLogger.class).info("Failed to scan jar {0}", file);
             }
         }
 
@@ -234,7 +236,7 @@ public final class ClassPath {
                     }
                     files.add(new File(url.getFile()));
                 } catch (MalformedURLException e) {
-                    Bukkit.getLogger().log(Level.INFO, "Invalid Class-Path entry: " + path);
+                    Instances.get(PluginLogger.class).info("Invalid Class-Path entry: {0}", path);
                 }
             }
             return files;
