@@ -1,0 +1,9 @@
+dependencies {
+    implementation(project(":api"))
+    implementation(project(":spigot"))
+    implementation(project(":bungee"))
+    implementation(project(":velocity"))
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
