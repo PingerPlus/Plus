@@ -1,6 +1,7 @@
 package io.pinger.plus.annotation;
 
 import io.pinger.plus.platform.Platform;
+import io.pinger.plus.runtime.InitializeOrder;
 
 /**
  * Annotation to mark a class for automatic initialization based on the platform.
@@ -43,4 +44,12 @@ public @interface RuntimeInitialized {
      * @return the target platform for initialization, default is {@link Platform#SPIGOT}.
      */
     Platform platform() default Platform.SPIGOT;
+
+    /**
+     * Defines the priority (order) in which this class should be initialized.
+     *
+     * @see InitializeOrder
+     * @return the priority (order) for initializing this class
+     */
+    InitializeOrder order() default InitializeOrder.NORMAL;
 }
