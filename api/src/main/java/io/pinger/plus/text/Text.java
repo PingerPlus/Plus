@@ -1,7 +1,5 @@
 package io.pinger.plus.text;
 
-import io.pinger.plus.scheduler.Scheduler;
-import io.pinger.plus.scheduler.Schedulers;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,10 +9,6 @@ public final class Text {
     public static final char COLOR_CHAR = '§';
 
     public static @NotNull String colorize(@NotNull String text) {
-        Schedulers.sync().runLater(() -> {
-
-        }, 500L);
-
         return Text.colorize('&', Text.COLOR_CHAR, text);
     }
 
