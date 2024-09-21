@@ -1,5 +1,6 @@
 package io.pinger.plus.text;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import net.kyori.adventure.text.Component;
@@ -32,11 +33,11 @@ public class ReplacerEntry {
         }
 
         public Builder contentPlain(@NotNull String content) {
-            return this.contentPlain(() -> List.of(content));
+            return this.contentPlain(() -> Collections.singletonList(content));
         }
 
         public Builder contentPlain(@NotNull Supplier<List<String>> supplier) {
-            this.content = () -> ComponentStyler.linesToComponent(supplier.get());
+            this.content = () -> ComponentSer.linesToComponent(supplier.get());
             return this;
         }
 
