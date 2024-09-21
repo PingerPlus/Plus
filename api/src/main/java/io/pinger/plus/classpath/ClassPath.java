@@ -10,7 +10,6 @@ import com.google.common.collect.Sets;
 import com.google.common.reflect.Reflection;
 import io.pinger.plus.instance.Instances;
 import io.pinger.plus.plugin.logging.PluginLogger;
-import io.pinger.plus.text.Text;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
