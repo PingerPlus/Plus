@@ -1,5 +1,6 @@
 package io.pinger.plus.text;
 
+import io.pinger.plus.message.ComponentSerializer;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,7 +38,7 @@ public class ReplacerEntry {
         }
 
         public Builder contentPlain(@NotNull Supplier<List<String>> supplier) {
-            this.content = () -> ComponentSer.linesToComponent(supplier.get());
+            this.content = () -> ComponentSerializer.linesToComponent(supplier.get());
             return this;
         }
 
