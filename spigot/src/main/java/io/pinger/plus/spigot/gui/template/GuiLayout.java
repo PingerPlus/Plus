@@ -1,4 +1,4 @@
-package io.pnger.gui.template;
+package io.pinger.plus.spigot.gui.template;
 
 import java.util.Arrays;
 import java.util.HashMap;

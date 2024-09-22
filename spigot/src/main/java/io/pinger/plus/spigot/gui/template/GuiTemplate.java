@@ -1,15 +1,15 @@
-package io.pnger.gui.template;
+package io.pinger.plus.spigot.gui.template;
 
 import com.google.common.base.Preconditions;
-import io.pnger.gui.template.button.GuiButtonTemplate;
-import io.pnger.gui.util.Iterables;
+import io.pinger.plus.spigot.gui.template.button.GuiButtonTemplate;
+import io.pinger.plus.util.Iterables;
+import io.pinger.plus.util.Processor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +62,7 @@ public class GuiTemplate implements ConfigurationSerializable {
         final Map<String, Object> map = new HashMap<>();
         map.put("title", this.title);
         map.put("layout", this.layout.serialize());
-        map.put("buttons", this.buttons.stream().map(GuiButtonTemplate::serialize).toList());
+        map.put("buttons", this.buttons.stream().map(GuiButtonTemplate::serialize).collect(Collectors.toList()));
         return map;
     }
 
@@ -93,7 +93,7 @@ public class GuiTemplate implements ConfigurationSerializable {
             return this;
         }
 
-        public Builder design(int rows, @Nonnull UnaryOperator<GuiLayout.Builder> modifier) {
+        public Builder design(int rows, @Nonnull Processor<GuiLayout.Builder> modifier) {
             Preconditions.checkArgument(rows <= 6, "Row amount must be less or equal than 6");
             this.layout = modifier.apply(GuiLayout.builder(rows)).build();
             return this;
@@ -104,7 +104,7 @@ public class GuiTemplate implements ConfigurationSerializable {
             return this;
         }
 
-        public Builder button(@Nonnull UnaryOperator<GuiButtonTemplate.Builder> modifier) {
+        public Builder button(@Nonnull Processor<GuiButtonTemplate.Builder> modifier) {
             this.buttons.add(modifier.apply(GuiButtonTemplate.builder()).build());
             return this;
         }

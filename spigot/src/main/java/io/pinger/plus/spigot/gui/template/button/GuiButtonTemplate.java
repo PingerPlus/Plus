@@ -1,10 +1,10 @@
-package io.pnger.gui.template.button;
+package io.pinger.plus.spigot.gui.template.button;
 
-import io.pnger.gui.item.ItemBuilder;
+import io.pinger.plus.spigot.item.ItemBuilder;
+import io.pinger.plus.util.Processor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -107,7 +107,7 @@ public class GuiButtonTemplate implements ConfigurationSerializable {
             return this;
         }
 
-        public Builder state(String name, UnaryOperator<ItemBuilder> builder) {
+        public Builder state(String name, Processor<ItemBuilder> builder) {
             return this.state(name, builder.apply(ItemBuilder.create()).build());
         }
 
@@ -116,7 +116,7 @@ public class GuiButtonTemplate implements ConfigurationSerializable {
             return this;
         }
 
-        public Builder defaultState(UnaryOperator<ItemBuilder> builder) {
+        public Builder defaultState(Processor<ItemBuilder> builder) {
             return this.defaultState(builder.apply(ItemBuilder.create()).build());
         }
 

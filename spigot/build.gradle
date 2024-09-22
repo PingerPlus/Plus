@@ -4,5 +4,6 @@ dependencies {
     testImplementation project(':api')
 
     compileOnly(project(':api'))
+    compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0")
     compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
 }

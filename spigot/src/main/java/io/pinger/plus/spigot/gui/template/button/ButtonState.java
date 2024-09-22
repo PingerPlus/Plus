@@ -1,10 +1,10 @@
-package io.pnger.gui.template.button;
+package io.pinger.plus.spigot.gui.template.button;
 
-import io.pnger.gui.item.ItemBuilder;
-import io.pnger.gui.item.ItemStackSerializer;
+import io.pinger.plus.spigot.item.ItemBuilder;
+import io.pinger.plus.spigot.item.ItemSerializer;
+import io.pinger.plus.util.Processor;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.UnaryOperator;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -55,14 +55,14 @@ public class ButtonState implements ConfigurationSerializable {
         this.item = item;
     }
 
-    public void setItem(UnaryOperator<ItemBuilder> modifier) {
+    public void setItem(Processor<ItemBuilder> modifier) {
         this.setItem(modifier.apply(ItemBuilder.create(this.item)).build());
     }
 
     @Override
     public @NotNull Map<String, Object> serialize() {
         final Map<String, Object> map = new HashMap<>();
-        map.put("item", ItemStackSerializer.serialize(this.item));
+        map.put("item", ItemSerializer.serialize(this.item));
         return map;
     }
 
@@ -72,7 +72,7 @@ public class ButtonState implements ConfigurationSerializable {
 
         @SuppressWarnings("unchecked")
         public static Builder from(String name, Map<String, Object> map) {
-            final ItemStack item = ItemStackSerializer.deserialize((Map<String, Object>) map.get("item"));
+            final ItemStack item = ItemSerializer.deserialize((Map<String, Object>) map.get("item"));
             return new Builder().name(name).item(item);
         }
 
@@ -86,7 +86,7 @@ public class ButtonState implements ConfigurationSerializable {
             return this;
         }
 
-        public Builder item(UnaryOperator<ItemBuilder> modifier) {
+        public Builder item(Processor<ItemBuilder> modifier) {
             return this.item(modifier.apply(ItemBuilder.create(this.item)).build());
         }
 
