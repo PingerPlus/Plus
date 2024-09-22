@@ -2,10 +2,10 @@ package io.pinger.plus.text;
 
 import io.pinger.plus.instance.Instances;
 import io.pinger.plus.text.ReplacerEntry.Builder;
+import io.pinger.plus.util.Processor;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.function.UnaryOperator;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,10 +25,10 @@ public class Replacer {
     }
 
     public <T> T accept(@NotNull T object) {
-        return Instances.get(Replacers.class).accept(object, this);
+        return Instances.getOrThrow(Replacers.class).accept(object, this);
     }
 
-    private Replacer replace(UnaryOperator<Builder> modifier) {
+    private Replacer replace(Processor<Builder> modifier) {
         final ReplacerEntry entry = new ReplacerEntry(modifier.apply(new Builder()));
         this.entries.removeIf((oldEntry) -> oldEntry.key().equals(entry.key()));
         this.entries.add(entry);

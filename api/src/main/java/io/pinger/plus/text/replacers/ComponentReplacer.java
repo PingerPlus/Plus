@@ -2,12 +2,12 @@ package io.pinger.plus.text.replacers;
 
 import io.pinger.plus.text.Replacer;
 import io.pinger.plus.text.ReplacerEntry;
+import io.pinger.plus.util.Processor;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.kyori.adventure.text.Component;
@@ -61,14 +61,14 @@ public class ComponentReplacer implements ReplacerProvider<Component> {
     }
 
     /**
-     * Creates a {@link UnaryOperator} to modify the color of a {@link Component} and its children.
+     * Creates a {@link Processor} to modify the color of a {@link Component} and its children.
      *
      * @param component The {@link Component} to use as a basis for modifications.
      * @param key       The key to search for.
      * @param color     The {@link NamedTextColor} to apply.
-     * @return A {@link UnaryOperator} that modifies the component.
+     * @return A {@link Processor} that modifies the component.
      */
-    private UnaryOperator<Component> modifier(Component component, String key, NamedTextColor color) {
+    private Processor<Component> modifier(Component component, String key, NamedTextColor color) {
         return (old) -> old
             .colorIfAbsent(color)
             .children(component.children()
@@ -105,7 +105,7 @@ public class ComponentReplacer implements ReplacerProvider<Component> {
         }
 
         final TextComponent text = (TextComponent) component;
-        final UnaryOperator<Component> modifier = this.modifier(component, key, color);
+        final Processor<Component> modifier = this.modifier(component, key, color);
 
         boolean replacedHere = replaced;
 
@@ -137,15 +137,15 @@ public class ComponentReplacer implements ReplacerProvider<Component> {
     }
 
     /**
-     * Replaces text within a {@link TextComponent} based on a key and a {@link UnaryOperator} for modification.
+     * Replaces text within a {@link TextComponent} based on a key and a {@link Processor} for modification.
      *
      * @param component The {@link TextComponent} to modify.
      * @param content   The original content of the component.
      * @param match     The key to search for.
-     * @param modifier  A {@link UnaryOperator} for modifying the component.
+     * @param modifier  A {@link Processor} for modifying the component.
      * @return The modified {@link Component}.
      */
-    private Component replace(@NotNull TextComponent component, @NotNull String content, @NotNull String match, @NotNull UnaryOperator<Component> modifier) {
+    private Component replace(@NotNull TextComponent component, @NotNull String content, @NotNull String match, @NotNull Processor<Component> modifier) {
         final String[] splitParts = content.split(Pattern.quote(match));
         final List<Component> components = new ArrayList<>();
 
