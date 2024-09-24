@@ -1,5 +1,6 @@
 package io.pinger.plus.text.replacers;
 
+import io.pinger.plus.message.ComponentSerializer;
 import io.pinger.plus.text.Replacer;
 import io.pinger.plus.text.ReplacerEntry;
 import io.pinger.plus.text.Text;
@@ -16,7 +17,7 @@ public class StringReplacer implements ReplacerProvider<String> {
         String replaced = object;
 
         for (final ReplacerEntry replacerEntry : replacer.entries()) {
-            final String replaceWith = ComponentStyler.contentFromComponent(replacerEntry.supplyContent());
+            final String replaceWith = ComponentSerializer.contentFromComponent(replacerEntry.supplyContent());
             replaced = replaced.replace(replacerEntry.key(), Text.colorize(replaceWith));
         }
 
