@@ -4,4 +4,5 @@ dependencies {
 
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0")
     compileOnly("com.google.guava:guava:33.3.0-jre")
+    compileOnly("com.zaxxer:HikariCP:4.0.3")
 }
