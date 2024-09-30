@@ -127,7 +127,7 @@ public abstract class HikariConnectionFactory implements ConnectionFactory {
 
         final Connection connection = this.hikari.getConnection();
         if (connection == null) {
-            throw new SQLException("Unable to get a connection from the pool. (getConnection returned null)");
+            throw new SQLException("Unable to get a connection from the pool.");
         }
 
         return connection;
