@@ -3,6 +3,7 @@ package io.pinger.plus.storage.implementation.sql.connection.hikari;
 import io.pinger.plus.storage.credentials.StorageCredentials;
 
 public class MariaDbConnectionFactory extends DriverBasedHikariConnectionFactory {
+
     public MariaDbConnectionFactory(StorageCredentials configuration) {
         super(configuration);
     }
