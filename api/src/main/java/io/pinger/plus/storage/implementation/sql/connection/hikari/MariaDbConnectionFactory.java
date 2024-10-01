@@ -1,8 +1,9 @@
 package io.pinger.plus.storage.implementation.sql.connection.hikari;
 
 import io.pinger.plus.storage.credentials.StorageCredentials;
+import java.util.function.Function;
 
-public class MariaDbConnectionFactory extends DriverBasedHikariConnectionFactory {
+public class MariaDbConnectionFactory extends HikariConnectionFactory {
 
     public MariaDbConnectionFactory(StorageCredentials configuration) {
         super(configuration);
@@ -26,6 +27,11 @@ public class MariaDbConnectionFactory extends DriverBasedHikariConnectionFactory
     @Override
     protected String driverJdbcIdentifier() {
         return "mariadb";
+    }
+
+    @Override
+    public Function<String, String> getStatementProcessor() {
+        return s -> s.replace('\'', '`'); // use backticks for quotes
     }
 
 }

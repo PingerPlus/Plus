@@ -4,7 +4,7 @@ import io.pinger.plus.storage.credentials.StorageCredentials;
 import java.util.Map;
 import java.util.function.Function;
 
-public class MySqlConnectionFactory extends DriverBasedHikariConnectionFactory {
+public class MySqlConnectionFactory extends HikariConnectionFactory {
 
     public MySqlConnectionFactory(StorageCredentials configuration) {
         super(configuration);
@@ -50,7 +50,6 @@ public class MySqlConnectionFactory extends DriverBasedHikariConnectionFactory {
         // It's not super important which timezone we pick, because we don't use time-based
         // data types in any of our schemas/queries.
         properties.putIfAbsent("serverTimezone", "UTC");
-
         super.overrideProperties(properties);
     }
 

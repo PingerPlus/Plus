@@ -3,7 +3,8 @@ package io.pinger.plus.storage.implementation.sql.connection.hikari;
 import io.pinger.plus.storage.credentials.StorageCredentials;
 import java.util.Map;
 import java.util.function.Function;
-public class PostgresConnectionFactory extends DriverBasedHikariConnectionFactory {
+
+public class PostgresConnectionFactory extends HikariConnectionFactory {
 
     public PostgresConnectionFactory(StorageCredentials configuration) {
         super(configuration);

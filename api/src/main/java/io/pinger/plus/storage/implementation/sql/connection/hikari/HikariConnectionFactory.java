@@ -20,12 +20,11 @@ public abstract class HikariConnectionFactory implements ConnectionFactory {
         this.configuration = configuration;
     }
 
-    /**
-     * Gets the default port used by the database
-     *
-     * @return the default port
-     */
     protected abstract String defaultPort();
+
+    protected abstract String driverClassName();
+
+    protected abstract String driverJdbcIdentifier();
 
     /**
      * Configures the {@link HikariConfig} with the relevant database properties.
@@ -39,7 +38,12 @@ public abstract class HikariConnectionFactory implements ConnectionFactory {
      * @param username the database username
      * @param password the database password
      */
-    protected abstract void configureDatabase(HikariConfig config, String address, String port, String databaseName, String username, String password);
+    public void configureDatabase(HikariConfig config, String address, String port, String databaseName, String username, String password) {
+        config.setDriverClassName(this.driverClassName());
+        config.setJdbcUrl(String.format("jdbc:%s://%s:%s/%s", this.driverJdbcIdentifier(), address, port, databaseName));
+        config.setUsername(username);
+        config.setPassword(password);
+    }
 
     /**
      * Allows the connection factory instance to override certain properties before they are set.
