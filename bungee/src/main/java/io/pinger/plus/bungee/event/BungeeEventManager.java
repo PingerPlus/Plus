@@ -83,7 +83,8 @@ public class BungeeEventManager extends EventManager<Event> {
 
     private <E extends Event> Method findEventHandler(BungeeEvent<E> event) {
         for (final Method method : event.getClass().getDeclaredMethods()) {
-            if (method.getParameterTypes()[0].equals(Event.class)) {
+            final Class<?>[] parameters = method.getParameterTypes();
+            if (parameters.length == 1 && parameters[0].equals(Event.class)) {
                 method.setAccessible(true);
                 return method;
             }
