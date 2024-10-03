@@ -13,15 +13,14 @@ import org.bson.UuidRepresentation;
 
 public abstract class AbstractMongoStorage implements StorageImplementation {
     private final StorageCredentials configuration;
-
-    private MongoClient mongoClient;
-    private MongoDatabase database;
-    private final String prefix;
     private final String connectionUri;
 
-    public AbstractMongoStorage(StorageCredentials configuration, String prefix, String connectionUri) {
+    private MongoClient mongoClient;
+
+    protected MongoDatabase database;
+
+    public AbstractMongoStorage(StorageCredentials configuration, String connectionUri) {
         this.configuration = configuration;
-        this.prefix = prefix;
         this.connectionUri = connectionUri;
     }
 
