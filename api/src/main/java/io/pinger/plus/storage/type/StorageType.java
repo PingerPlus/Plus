@@ -1,4 +1,4 @@
-package io.pinger.plus.storage;
+package io.pinger.plus.storage.type;
 
 public enum StorageType {
 

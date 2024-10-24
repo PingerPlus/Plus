@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class StorageCredentials {
+public class StorageConfig {
     private final String address;
     private final String database;
     private final String username;
@@ -16,7 +16,7 @@ public class StorageCredentials {
     private final int connectionTimeout;
     private final Map<String, String> properties;
 
-    public StorageCredentials(String address, String database, String username, String password, int maxPoolSize, int minIdleConnections, int maxLifetime, int keepAliveTime, int connectionTimeout, Map<String, String> properties) {
+    public StorageConfig(String address, String database, String username, String password, int maxPoolSize, int minIdleConnections, int maxLifetime, int keepAliveTime, int connectionTimeout, Map<String, String> properties) {
         this.address = address;
         this.database = database;
         this.username = username;
@@ -29,7 +29,7 @@ public class StorageCredentials {
         this.properties = properties;
     }
 
-    public StorageCredentials(String address, String database, String username, String password) {
+    public StorageConfig(String address, String database, String username, String password) {
         this(address, database, username, password, 10, 10, 1800000, 0, 5000, ImmutableMap.of());
     }
 

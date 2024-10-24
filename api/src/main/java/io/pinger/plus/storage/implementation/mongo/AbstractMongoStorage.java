@@ -7,19 +7,19 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
-import io.pinger.plus.storage.credentials.StorageCredentials;
+import io.pinger.plus.storage.credentials.StorageConfig;
 import io.pinger.plus.storage.implementation.StorageImplementation;
 import org.bson.UuidRepresentation;
 
 public abstract class AbstractMongoStorage implements StorageImplementation {
-    private final StorageCredentials configuration;
+    private final StorageConfig configuration;
     private final String connectionUri;
 
     private MongoClient mongoClient;
 
     protected MongoDatabase database;
 
-    public AbstractMongoStorage(StorageCredentials configuration, String connectionUri) {
+    public AbstractMongoStorage(StorageConfig configuration, String connectionUri) {
         this.configuration = configuration;
         this.connectionUri = connectionUri;
     }
