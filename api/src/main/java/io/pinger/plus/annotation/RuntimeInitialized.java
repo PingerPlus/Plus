@@ -1,7 +1,12 @@
 package io.pinger.plus.annotation;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import io.pinger.plus.platform.Platform;
 import io.pinger.plus.runtime.InitializeOrder;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
  * Annotation to mark a class for automatic initialization based on the platform.
@@ -33,6 +38,9 @@ import io.pinger.plus.runtime.InitializeOrder;
  *
  * @see io.pinger.plus.platform.Platform
  */
+
+@Retention(RUNTIME)
+@Target(TYPE)
 public @interface RuntimeInitialized {
 
     /**

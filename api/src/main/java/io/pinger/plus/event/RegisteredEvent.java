@@ -1,6 +1,8 @@
 package io.pinger.plus.event;
 
-public interface RegisteredEvent {
+import io.pinger.plus.subscribe.Subscribable;
+
+public interface RegisteredEvent extends Subscribable {
 
     void unregister();
 

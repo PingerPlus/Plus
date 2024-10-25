@@ -10,7 +10,6 @@ public class Arrays {
      * @return the result of the comparison: more or equal to 1 is first is larger, less
      *      or equal to -1 if the second is larger, and 0 if they are the same
      */
-
     public static int compare(int[] a, int[] b) {
         if (a == b) {
             return 0;

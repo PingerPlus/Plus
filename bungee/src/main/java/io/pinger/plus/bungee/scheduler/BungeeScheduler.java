@@ -22,7 +22,6 @@ public class BungeeScheduler implements Scheduler {
         return task::cancel;
     }
 
-
     @Override
     public Task runLater(Runnable runnable, long delay) {
         final ScheduledTask task = this.scheduler.schedule(this.plugin, runnable, delay, TimeUnit.MILLISECONDS);

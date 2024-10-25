@@ -1,6 +1,8 @@
 package io.pinger.plus.scheduler;
 
-public interface Task {
+import io.pinger.plus.subscribe.Subscribable;
+
+public interface Task extends Subscribable {
 
     void cancel();
 

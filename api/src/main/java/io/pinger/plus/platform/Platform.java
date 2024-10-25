@@ -8,6 +8,7 @@ package io.pinger.plus.platform;
  * based on the presence of these platform-specific classes.
  * </p>
  */
+
 public enum Platform {
 
     SPIGOT("org.bukkit.Bukkit"),
