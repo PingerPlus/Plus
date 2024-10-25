@@ -15,15 +15,15 @@ import io.pinger.plus.subscribe.Subscribable;
 import java.lang.reflect.Method;
 
 public class PluginModule extends AbstractModule {
-    private final AbstractBootstrap bootstrap;
+    private final Bootstrap bootstrap;
 
-    public PluginModule(AbstractBootstrap bootstrap) {
+    public PluginModule(Bootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
 
     @Override
     protected void configure() {
-        this.bind(AbstractBootstrap.class).toInstance(this.bootstrap);
+        this.bind(Bootstrap.class).toInstance(this.bootstrap);
         this.bind(PluginLogger.class).toInstance(this.bootstrap.getLogger());
         this.handleBindableClasses();
     }
