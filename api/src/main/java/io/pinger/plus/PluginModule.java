@@ -14,7 +14,7 @@ import io.pinger.plus.plugin.logging.PluginLogger;
 import io.pinger.plus.subscribe.Subscribable;
 import java.lang.reflect.Method;
 
-public class PluginModule extends AbstractModule {
+public abstract class PluginModule extends AbstractModule {
     private final Bootstrap bootstrap;
 
     public PluginModule(Bootstrap bootstrap) {
@@ -27,6 +27,8 @@ public class PluginModule extends AbstractModule {
         this.bind(PluginLogger.class).toInstance(this.bootstrap.getLogger());
         this.handleBindableClasses();
     }
+
+    public abstract void configurePlugin();
 
     private void handleBindableClasses() {
         this.bindListenerToAny(annotation(AutoBind.class), (ClassListener) (instance, classifier) -> {
