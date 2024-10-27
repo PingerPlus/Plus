@@ -8,10 +8,12 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.Reflection;
+import io.pinger.plus.annotation.Annotations;
 import io.pinger.plus.instance.Instances;
 import io.pinger.plus.plugin.logging.PluginLogger;
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -40,7 +42,7 @@ public final class ClassPath {
         this.resources = resources;
     }
 
-    public static ClassPath from(ClassLoader classloader) throws IOException {
+    public static ClassPath from(ClassLoader classloader)  {
         final DefaultScanner scanner = new DefaultScanner();
         scanner.scan(classloader);
         return new ClassPath(scanner.getResources());
@@ -55,6 +57,14 @@ public final class ClassPath {
             .stream()
             .filter(ClassInfo.class::isInstance)
             .map(ClassInfo.class::cast)
+            .collect(Collectors.toSet());
+    }
+
+    public Set<Class<?>> findClassesAnnotatedWith(Class<? extends Annotation>... annotations) {
+        return this.getAllClasses()
+            .stream()
+            .map(ClassInfo::load)
+            .filter((clazz) -> Annotations.present(clazz, annotations))
             .collect(Collectors.toSet());
     }
 
@@ -178,10 +188,14 @@ public final class ClassPath {
     abstract static class Scanner {
         private final Set<File> scannedUris = Sets.newHashSet();
 
-        public final void scan(ClassLoader loader) throws IOException {
-            final Map<File, ClassLoader> entries = this.getClassPathEntries(loader);
-            for (final Map.Entry<File, ClassLoader> entry : entries.entrySet()) {
-                this.scan(entry.getKey(), entry.getValue());
+        public final void scan(ClassLoader loader) {
+            try {
+                final Map<File, ClassLoader> entries = this.getClassPathEntries(loader);
+                for (final Map.Entry<File, ClassLoader> entry : entries.entrySet()) {
+                    this.scan(entry.getKey(), entry.getValue());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

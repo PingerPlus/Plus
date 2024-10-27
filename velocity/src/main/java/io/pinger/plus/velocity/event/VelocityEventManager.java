@@ -32,7 +32,7 @@ public class VelocityEventManager extends EventManager<Object> {
             this.server,
             eventClass,
             this.priorityToByte(priority),
-            listener::accept
+            handler
         );
 
         return event;

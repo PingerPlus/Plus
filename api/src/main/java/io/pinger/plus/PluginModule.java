@@ -8,6 +8,7 @@ import com.google.inject.matcher.Matcher;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 import io.pinger.plus.annotation.AutoBind;
+import io.pinger.plus.classpath.ClassScanner;
 import io.pinger.plus.inject.ClassListener;
 import io.pinger.plus.inject.Listener;
 import io.pinger.plus.plugin.logging.PluginLogger;
@@ -25,6 +26,7 @@ public abstract class PluginModule extends AbstractModule {
     protected void configure() {
         this.bind(Bootstrap.class).toInstance(this.bootstrap);
         this.bind(PluginLogger.class).toInstance(this.bootstrap.getLogger());
+        this.bind(ClassScanner.class).asEagerSingleton();
         this.handleBindableClasses();
     }
 

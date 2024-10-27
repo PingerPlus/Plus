@@ -30,6 +30,8 @@ public class GuiManager implements AutoSubscribable {
         ConfigurationSerialization.registerClass(GuiLayout.class);
         ConfigurationSerialization.registerClass(GuiButtonTemplate.class);
         ConfigurationSerialization.registerClass(ButtonState.class);
+
+        this.autoSubscribe();
     }
 
     public static GuiManager get() {
