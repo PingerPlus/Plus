@@ -3,6 +3,7 @@ package io.pinger.plus.annotation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import io.pinger.plus.platform.Platform;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -37,6 +38,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RUNTIME)
 @Target(TYPE)
-@RuntimeInitialized
+@RuntimeInitialized(platform = Platform.ANY)
 public @interface AutoBind {
 }

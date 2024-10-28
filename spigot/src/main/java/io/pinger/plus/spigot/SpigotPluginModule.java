@@ -1,7 +1,5 @@
 package io.pinger.plus.spigot;
 
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import io.pinger.plus.PluginModule;
 import io.pinger.plus.spigot.gui.GuiManager;
 import org.bukkit.plugin.Plugin;
@@ -22,13 +20,8 @@ public abstract class SpigotPluginModule extends PluginModule {
 
         this.bind(Plugin.class).to(JavaPlugin.class);
         this.bind(JavaPlugin.class).toInstance(this.bootstrap.getLoader());
+        this.bind(GuiManager.class).asEagerSingleton();
 
         this.configurePlugin();
-    }
-
-    @Provides
-    @Singleton
-    private GuiManager getGuiManager() {
-        return new GuiManager();
     }
 }

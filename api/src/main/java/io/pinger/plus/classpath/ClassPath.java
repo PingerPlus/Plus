@@ -20,6 +20,7 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -66,6 +67,14 @@ public final class ClassPath {
             .map(ClassInfo::load)
             .filter((clazz) -> Annotations.present(clazz, annotations))
             .collect(Collectors.toSet());
+    }
+
+    public <T> List<Class<? extends T>> getSubTypesOf(Class<T> type) {
+        return this.getAllClasses().stream()
+            .map(ClassInfo::load)
+            .filter(type::isAssignableFrom)
+            .map((clazz) -> (Class<? extends T>) clazz.asSubclass(type))
+            .collect(Collectors.toList());
     }
 
     public Set<ClassInfo> getTopLevelClasses() {

@@ -1,6 +1,5 @@
 package io.pinger.plus.classpath;
 
-import com.google.inject.Inject;
 import io.pinger.plus.Bootstrap;
 import io.pinger.plus.classpath.ClassPath.ClassInfo;
 import java.lang.annotation.Annotation;
@@ -10,7 +9,6 @@ import java.util.stream.Collectors;
 public class ClassScanner {
     private final ClassPath classPath;
 
-    @Inject
     public ClassScanner(Bootstrap bootstrap) {
         this.classPath = ClassPath.from(bootstrap.getClass().getClassLoader());
     }

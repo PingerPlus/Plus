@@ -11,11 +11,16 @@ public class DPBootstrap extends PluginBootstrap {
 
     @Override
     public PluginModule getModule() {
-        return new SpigotPluginModule(this) {
-            @Override
-            public void configurePlugin() {
-                return;
-            }
-        };
+        return null;
+    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 }

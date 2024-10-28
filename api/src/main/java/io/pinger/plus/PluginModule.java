@@ -3,6 +3,8 @@ package io.pinger.plus;
 import static io.pinger.plus.inject.ClassMatcher.annotation;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matcher;
 import com.google.inject.spi.TypeEncounter;
@@ -13,6 +15,7 @@ import io.pinger.plus.inject.ClassListener;
 import io.pinger.plus.inject.Listener;
 import io.pinger.plus.plugin.logging.PluginLogger;
 import io.pinger.plus.subscribe.Subscribable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 public abstract class PluginModule extends AbstractModule {
@@ -26,11 +29,16 @@ public abstract class PluginModule extends AbstractModule {
     protected void configure() {
         this.bind(Bootstrap.class).toInstance(this.bootstrap);
         this.bind(PluginLogger.class).toInstance(this.bootstrap.getLogger());
-        this.bind(ClassScanner.class).asEagerSingleton();
         this.handleBindableClasses();
     }
 
     public abstract void configurePlugin();
+
+    @Provides
+    @Singleton
+    public ClassScanner getClassScanner() {
+        return new ClassScanner(this.bootstrap);
+    }
 
     private void handleBindableClasses() {
         this.bindListenerToAny(annotation(AutoBind.class), (ClassListener) (instance, classifier) -> {
@@ -52,6 +60,10 @@ public abstract class PluginModule extends AbstractModule {
         });
     }
 
+    protected void bindClassesAnnotatedWith(Class<? extends Annotation> annotation) {
+        this.getClassScanner().getTypesAnnotatedWith(annotation).forEach(this::bind);
+    }
+
     protected void bindListenerToAny(Matcher<? super TypeLiteral<?>> matcher, Listener<Object> listener) {
         this.bindListener(matcher, Object.class, listener);
     }
@@ -69,4 +81,6 @@ public abstract class PluginModule extends AbstractModule {
             }
         });
     }
+
+
 }

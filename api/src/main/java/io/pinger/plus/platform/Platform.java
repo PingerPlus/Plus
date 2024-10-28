@@ -14,6 +14,7 @@ public enum Platform {
     SPIGOT("org.bukkit.Bukkit"),
     BUNGEE("net.md_5.bungee.api.ProxyServer"),
     VELOCITY("com.velocitypowered.api.proxy.ProxyServer"),
+    ANY(null),
     UNKNOWN(null);
 
     private final String clazz;
