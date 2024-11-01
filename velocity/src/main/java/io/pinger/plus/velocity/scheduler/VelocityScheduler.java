@@ -1,18 +1,19 @@
 package io.pinger.plus.velocity.scheduler;
 
-import com.velocitypowered.api.proxy.ProxyServer;
+import com.google.inject.Inject;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler.TaskBuilder;
 import io.pinger.plus.scheduler.Scheduler;
 import io.pinger.plus.scheduler.Task;
+import io.pinger.plus.velocity.PluginBootstrap;
 import java.util.concurrent.TimeUnit;
 
 public class VelocityScheduler implements Scheduler {
-    // TODO: Replace it with the actual plugin implementation
-    private final ProxyServer server;
+    private final PluginBootstrap bootstrap;
 
-    public VelocityScheduler(ProxyServer server) {
-        this.server = server;
+    @Inject
+    public VelocityScheduler(PluginBootstrap bootstrap) {
+        this.bootstrap = bootstrap;
     }
 
     @Override
@@ -38,6 +39,6 @@ public class VelocityScheduler implements Scheduler {
     }
 
     private TaskBuilder buildTask(Runnable runnable) {
-        return this.server.getScheduler().buildTask(this.server, runnable);
+        return this.bootstrap.getProxyServer().getScheduler().buildTask(this.bootstrap, runnable);
     }
 }

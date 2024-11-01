@@ -33,7 +33,7 @@ public abstract class PluginBootstrap implements Bootstrap, LoaderBootstrap {
 
     @Override
     public void onDisable() {
-
+        
     }
 
     public JavaPlugin getLoader() {
