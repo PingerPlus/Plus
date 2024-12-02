@@ -7,9 +7,9 @@ plugins {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
-    apply plugin: 'jacoco'
 
     group = 'io.pinger.plus'
     version = '1.0.0'
@@ -19,10 +19,6 @@ subprojects {
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
-    }
-
-    jacocoTestReport {
-        dependsOn test
     }
 
     test {
@@ -39,8 +35,25 @@ subprojects {
     }
 
     dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.34'
+        compileOnly("org.projectlombok:lombok:1.18.34")
         annotationProcessor 'org.projectlombok:lombok:1.18.34'
-        compileOnly("com.google.inject:guice:7.0.0")
+
+        api("com.google.inject:guice:7.0.0") {
+            exclude group: "com.google.guava", module: "guava"
+        }
+
+        implementation("org.ow2.asm:asm:9.7")
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.version.toString()
+
+                from components.java
+            }
+        }
     }
 }

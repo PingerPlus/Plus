@@ -34,7 +34,7 @@ public abstract class PluginBootstrap implements Bootstrap {
 
     @Subscribe
     public void onProxyStart(ProxyInitializeEvent event) {
-        this.injector = Guice.createInjector(this.getModule());
+
     }
 
     @Subscribe
@@ -51,10 +51,6 @@ public abstract class PluginBootstrap implements Bootstrap {
         return this.logger;
     }
 
-    @Override
-    public final Injector getInjector() {
-        return this.injector;
-    }
 
     @Override
     public Platform getPlatform() {

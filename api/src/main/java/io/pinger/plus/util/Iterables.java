@@ -34,4 +34,23 @@ public interface Iterables {
         return list;
     }
 
+    static <R, T> List<T> query(Iterable<R> iterable, Function<R, T> function) {
+        final List<T> list = new ArrayList<>();
+        for (final R r : iterable) {
+            final T result = function.apply(r);
+            if (result != null) {
+                list.add(result);
+            }
+        }
+        return list;
+    }
+
+    static <R, T> R queryFirst(Iterable<R> iterable, Function<R, T> function, @Nonnull T param) {
+        return Iterables.query(iterable, function, param).stream().findFirst().orElse(null);
+    }
+
+    static <R, T> T queryFirst(Iterable<R> iterable, Function<R, T> function) {
+        return Iterables.query(iterable, function).stream().findFirst().orElse(null);
+    }
+
 }

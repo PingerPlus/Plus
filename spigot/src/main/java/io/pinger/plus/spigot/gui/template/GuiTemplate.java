@@ -4,10 +4,8 @@ import com.google.common.base.Preconditions;
 import io.pinger.plus.spigot.gui.template.button.GuiButtonTemplate;
 import io.pinger.plus.util.Iterables;
 import io.pinger.plus.util.Processor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -16,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class GuiTemplate implements ConfigurationSerializable {
     private final List<GuiButtonTemplate> buttons;
+    private final String identifier;
     private final String title;
     private final GuiLayout layout;
 
@@ -23,6 +22,7 @@ public class GuiTemplate implements ConfigurationSerializable {
         this.buttons = builder.buttons;
         this.title = builder.title;
         this.layout = builder.layout;
+        this.identifier = Objects.requireNonNull(builder.identifier);
     }
 
     public GuiTemplate(Map<String, Object> map) {
@@ -57,9 +57,14 @@ public class GuiTemplate implements ConfigurationSerializable {
         return this.layout;
     }
 
+    public String getIdentifier() {
+        return this.identifier;
+    }
+
     @Override
     public @NotNull Map<String, Object> serialize() {
         final Map<String, Object> map = new HashMap<>();
+        map.put("identifier", this.identifier);
         map.put("title", this.title);
         map.put("layout", this.layout.serialize());
         map.put("buttons", this.buttons.stream().map(GuiButtonTemplate::serialize).collect(Collectors.toList()));
@@ -69,6 +74,7 @@ public class GuiTemplate implements ConfigurationSerializable {
     public static class Builder {
         private final List<GuiButtonTemplate> buttons;
 
+        private String identifier;
         private String title;
         private GuiLayout layout;
 
@@ -78,6 +84,7 @@ public class GuiTemplate implements ConfigurationSerializable {
 
         @SuppressWarnings("unchecked")
         public static Builder from(Map<String, Object> map) {
+            final String identifier = (String) map.get("identifier");
             final String title = (String) map.get("title");
             final GuiLayout layout = new GuiLayout((Map<String, Object>) map.get("layout"));
             final List<GuiButtonTemplate> buttons = new ArrayList<>();
@@ -85,11 +92,16 @@ public class GuiTemplate implements ConfigurationSerializable {
             for (final Map<String, Object> buttonMap : buttonsSerialized) {
                 buttons.add(new GuiButtonTemplate(buttonMap));
             }
-            return new Builder().title(title).layout(layout).buttons(buttons);
+            return new Builder().identifier(identifier).title(title).layout(layout).buttons(buttons);
         }
 
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        public Builder identifier(@Nonnull String identifier) {
+            this.identifier = identifier;
             return this;
         }
 

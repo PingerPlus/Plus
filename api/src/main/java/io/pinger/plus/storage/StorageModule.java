@@ -1,26 +1,43 @@
 package io.pinger.plus.storage;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.j256.ormlite.support.ConnectionSource;
+import io.pinger.plus.instance.Instances;
+import io.pinger.plus.plugin.logging.PluginLogger;
+import io.pinger.plus.storage.implementation.ConnectionSourceProvider;
 import io.pinger.plus.storage.implementation.StorageImplementation;
+import io.pinger.plus.storage.implementation.sql.connection.ConnectionFactory;
 import io.pinger.plus.storage.type.StorageType;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-public class StorageModule<T extends StorageImplementation> extends AbstractModule {
-    private final AbstractStorageFactory factory;
+public class StorageModule extends AbstractModule {
+    private final StorageFactory factory;
     private final StorageType type;
-    private final Class<T> rootClass;
-    private final Class<? extends Storage> storageClass;
 
-    public StorageModule(AbstractStorageFactory factory, StorageType type, Class<T> rootClass, Class<? extends Storage> storageClass) {
+    public StorageModule(StorageFactory factory, StorageType type) {
         this.factory = factory;
         this.type = type;
-        this.rootClass = rootClass;
-        this.storageClass = storageClass;
     }
 
     @Override
     protected void configure() {
-        final StorageImplementation storage = this.factory.createStorage(this.type);
-        this.bind(this.rootClass).toInstance(this.rootClass.cast(storage));
-        this.bind(Storage.class).to(this.storageClass);
+        final StorageImplementation implementation = this.factory.createStorageImplementation(this.type);
+
+        try {
+            implementation.init();
+        } catch (Exception e) {
+            Instances.get(PluginLogger.class).error("Failed to init storage: ", e);
+            return;
+        }
+
+        this.bind(StorageImplementation.class).toInstance(implementation);
+        this.bind(ConnectionSourceProvider.class).toInstance(implementation.getConnectionSourceProvider());
+    }
+
+    @Provides
+    public ConnectionSource provideConnectionSource(ConnectionSourceProvider provider) {
+        return provider.getConnectionSource();
     }
 }

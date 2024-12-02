@@ -29,16 +29,11 @@ public abstract class PluginModule extends AbstractModule {
     protected void configure() {
         this.bind(Bootstrap.class).toInstance(this.bootstrap);
         this.bind(PluginLogger.class).toInstance(this.bootstrap.getLogger());
+        this.bind(ClassScanner.class).toInstance(this.bootstrap.getClassScanner());
         this.handleBindableClasses();
     }
 
     public abstract void configurePlugin();
-
-    @Provides
-    @Singleton
-    public ClassScanner getClassScanner() {
-        return new ClassScanner(this.bootstrap);
-    }
 
     private void handleBindableClasses() {
         this.bindListenerToAny(annotation(AutoBind.class), (ClassListener) (instance, classifier) -> {
@@ -61,7 +56,7 @@ public abstract class PluginModule extends AbstractModule {
     }
 
     protected void bindClassesAnnotatedWith(Class<? extends Annotation> annotation) {
-        this.getClassScanner().getTypesAnnotatedWith(annotation).forEach(this::bind);
+        this.bootstrap.getClassScanner().getTypesAnnotatedWith(annotation).forEach(this::bind);
     }
 
     protected void bindListenerToAny(Matcher<? super TypeLiteral<?>> matcher, Listener<Object> listener) {

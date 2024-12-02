@@ -1,0 +1,3 @@
+main: io.pinger.plus.spigot.plugin.PluginLoader
+name: ABCD
+version: 1.0.0

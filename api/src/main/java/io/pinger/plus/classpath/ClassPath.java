@@ -17,6 +17,8 @@ import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -181,7 +183,7 @@ public final class ClassPath {
          */
         public Class<?> load() {
             try {
-                return this.loader.loadClass(this.className);
+                return Class.forName(this.className, false, this.loader);
             } catch (ClassNotFoundException e) {
                 // Shouldn't happen, since the class name is read from the class path.
                 throw new IllegalStateException(e);
@@ -213,8 +215,10 @@ public final class ClassPath {
         protected abstract void scanJarFile(ClassLoader loader, JarFile file) throws IOException;
 
         private void scan(File file, ClassLoader classloader) throws IOException {
-            if (this.scannedUris.add(file.getCanonicalFile())) {
-                this.scanFrom(file, classloader);
+            final String decodedPath = URLDecoder.decode(file.getPath(), "UTF-8");
+            final File decodedFile = new File(decodedPath);
+            if (this.scannedUris.add(decodedFile.getCanonicalFile())) {
+                this.scanFrom(decodedFile, classloader);
             }
         }
 
@@ -234,7 +238,7 @@ public final class ClassPath {
 
                 this.scanJarFile(classLoader, jarFile);
             } catch (Exception e) {
-                Instances.get(PluginLogger.class).info("Failed to scan jar {0}", file);
+                e.printStackTrace();
             }
         }
 
@@ -256,9 +260,11 @@ public final class ClassPath {
                     if (!url.getProtocol().equals("file")) {
                         continue;
                     }
-                    files.add(new File(url.getFile()));
-                } catch (MalformedURLException e) {
-                    Instances.get(PluginLogger.class).info("Invalid Class-Path entry: {0}", path);
+
+                    final String decodedPath = URLDecoder.decode(url.getFile(), "UTF-8");
+                    files.add(new File(decodedPath));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             return files;

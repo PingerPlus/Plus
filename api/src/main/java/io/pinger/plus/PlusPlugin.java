@@ -17,5 +17,4 @@ public interface PlusPlugin {
     EventManager<?> getEventManager();
 
     Schedulers getSchedulers();
-
 }

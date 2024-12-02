@@ -2,7 +2,9 @@ package io.pinger.plus.storage.implementation;
 
 public interface StorageImplementation {
 
-    void init();
+    ConnectionSourceProvider getConnectionSourceProvider();
+
+    void init() throws Exception;
 
     void shutdown();
 

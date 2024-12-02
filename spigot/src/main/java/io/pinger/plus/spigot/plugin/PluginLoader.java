@@ -8,8 +8,7 @@ public class PluginLoader extends JavaPlugin {
     private final LoaderBootstrap bootstrap;
 
     public PluginLoader() {
-        final BootstrapLoader loader = new BootstrapLoader();
-        this.bootstrap = loader.loadBootstrap(JavaPlugin.class, this);
+        this.bootstrap = new BootstrapLoader().loadBootstrap(JavaPlugin.class, this);
     }
 
     @Override

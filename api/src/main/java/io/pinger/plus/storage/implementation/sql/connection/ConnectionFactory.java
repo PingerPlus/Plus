@@ -1,19 +1,16 @@
 package io.pinger.plus.storage.implementation.sql.connection;
 
+import io.pinger.plus.storage.implementation.ConnectionSourceProvider;
 import io.pinger.plus.storage.type.StorageType;
 import io.pinger.plus.util.Processor;
-import java.sql.Connection;
-import java.sql.SQLException;
 
-public interface ConnectionFactory {
+public interface ConnectionFactory extends ConnectionSourceProvider {
 
     StorageType getStorageType();
 
-    void init();
+    void init() throws Exception;
 
-    void shutdown();
-
-    Connection getConnection() throws SQLException;
+    void shutdown() throws Exception;
 
     Processor<String> getStatementProcessor();
 

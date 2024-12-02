@@ -14,7 +14,5 @@ public abstract class VelocityPluginModule extends PluginModule {
     @Override
     protected void configure() {
         super.configure();
-
-        this.bind()
     }
 }

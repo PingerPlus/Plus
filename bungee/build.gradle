@@ -1,5 +1,4 @@
 dependencies {
-    compileOnly(project(':api'))
+    compileOnly(project(":api"))
     compileOnly("net.md-5:bungeecord-api:1.19-R0.1-SNAPSHOT")
-    implementation("org.jetbrains:annotations:24.0.1")
 }
