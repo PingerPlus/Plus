@@ -3,7 +3,7 @@ package io.pinger.plus.orm;
 import com.j256.ormlite.dao.Dao;
 import lombok.SneakyThrows;
 
-public interface StorageDao<T, ID> extends Dao<T, ID> {
+public interface Repository<T, ID> extends Dao<T, ID> {
 
     @SneakyThrows
     default void sneakyCreate(T data) {
