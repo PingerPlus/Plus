@@ -1,7 +1,9 @@
 package io.pinger.plus;
 
 import com.google.inject.Injector;
+import io.pinger.plus.asm.ClassProxy;
 import io.pinger.plus.classpath.ClassScanner;
+import io.pinger.plus.graph.Graph;
 import io.pinger.plus.platform.Platform;
 import io.pinger.plus.plugin.logging.PluginLogger;
 import java.io.InputStream;
@@ -18,6 +20,10 @@ public interface Bootstrap {
     Injector getInjector();
 
     ClassScanner getClassScanner();
+
+    default Graph<ClassProxy> getGraph() {
+        return this.getClassScanner().getGraph();
+    }
 
     Platform getPlatform();
 

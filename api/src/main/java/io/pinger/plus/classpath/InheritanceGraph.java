@@ -82,6 +82,7 @@ public final class InheritanceGraph {
             }
         }
 
+        @SneakyThrows
         private void scanJar(File file, ClassLoader classLoader) {
             try (final JarFile jarFile = new JarFile(file)) {
                 for (final File path : this.getClassPathFromManifest(file, jarFile.getManifest())) {
@@ -89,8 +90,6 @@ public final class InheritanceGraph {
                 }
 
                 this.scanJarFile(classLoader, jarFile);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
@@ -159,25 +158,21 @@ public final class InheritanceGraph {
         }
 
         @Override
+        @SneakyThrows
         protected void scanJarFile(ClassLoader classloader, JarFile file) {
             final Enumeration<JarEntry> entries = file.entries();
-            try {
-                while (entries.hasMoreElements()) {
-                    final JarEntry entry = entries.nextElement();
-                    if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
-                        continue;
-                    }
+            while (entries.hasMoreElements()) {
+                final JarEntry entry = entries.nextElement();
+                if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
+                    continue;
+                }
 
-                    if (entry.getName().endsWith(".class") && !entry.getName().startsWith("module-info")) {
-                        try (final InputStream stream = file.getInputStream(entry)) {
-                            final ClassReader reader = new ClassReader(stream);
-                            reader.accept(new InheritanceVisitor(this.graph), 0);
-                        }
+                if (entry.getName().endsWith(".class") && !entry.getName().startsWith("module-info")) {
+                    try (final InputStream stream = file.getInputStream(entry)) {
+                        final ClassReader reader = new ClassReader(stream);
+                        reader.accept(new InheritanceVisitor(this.graph), 0);
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
             }
         }
 

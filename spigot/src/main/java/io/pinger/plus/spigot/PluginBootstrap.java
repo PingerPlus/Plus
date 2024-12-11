@@ -3,14 +3,17 @@ package io.pinger.plus.spigot;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.pinger.plus.Bootstrap;
-import io.pinger.plus.PluginModule;
+import io.pinger.plus.annotation.AutoBind;
+import io.pinger.plus.asm.ClassProxy;
 import io.pinger.plus.classpath.ClassScanner;
+import io.pinger.plus.instance.Instances;
 import io.pinger.plus.platform.Platform;
 import io.pinger.plus.plugin.bootstrap.LoaderBootstrap;
 import io.pinger.plus.plugin.logging.PluginLogger;
 import io.pinger.plus.spigot.gui.GuiManager;
 import io.pinger.plus.spigot.plugin.logging.SpigotPluginLogger;
 import java.nio.file.Path;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class PluginBootstrap implements Bootstrap, LoaderBootstrap {
@@ -31,6 +34,9 @@ public abstract class PluginBootstrap implements Bootstrap, LoaderBootstrap {
 
     @Override
     public final void onLoad() {
+        Instances.register(this.loader);
+        Instances.register(this);
+
         try {
             this.plugin.loadInternally();
         } catch (Exception e) {
@@ -49,6 +55,16 @@ public abstract class PluginBootstrap implements Bootstrap, LoaderBootstrap {
         }
 
         this.guiManager = this.get(GuiManager.class);
+        long time = System.currentTimeMillis();
+        for (ClassProxy proxy : this.getClassScanner().getGraph().traverse(ClassProxy.fromClass(Object.class))) {
+            System.out.println(proxy.getClassName());
+        }
+
+        System.out.println("Printing types annotated with rn");
+        this.getClassScanner().getTypesAnnotatedWith(AutoBind.class).forEach(System.out::println);
+
+        System.out.println("yeah");
+        System.out.println("yeah baby");
     }
 
     @Override

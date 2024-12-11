@@ -34,6 +34,7 @@ public class Instances {
                 throw new IllegalStateException("Duplicate instance found for " + clazz);
             }
 
+            System.out.println("Putting for " + clazz + " instance");
             Instances.INSTANCES.put(clazz, instance);
         }
     }

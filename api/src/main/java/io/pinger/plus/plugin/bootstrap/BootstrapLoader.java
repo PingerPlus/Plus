@@ -50,7 +50,6 @@ public class BootstrapLoader {
         }
 
         final String className = Iterables.queryFirst(proxies, ClassProxy::getJavaClassName);
-        System.out.println(className);
         try {
             return Class.forName(className).asSubclass(LoaderBootstrap.class);
         } catch (Exception e) {

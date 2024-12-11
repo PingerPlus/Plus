@@ -38,6 +38,10 @@ public abstract class AbstractPlusPlugin implements PlusPlugin {
         this.getLogger().info("Goodbye!");
     }
 
+    public void onLoad() {}
+    public void onEnable() {}
+    public void onDisable() {}
+
     protected abstract DependencyManager createDependencyManager();
     protected abstract EventManager<?> createEventManager();
     protected abstract Schedulers createSchedulers();
